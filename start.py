@@ -2,7 +2,7 @@
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from time import sleep
 import unittest
-import HtmlTestRunner # type: ignore
+import HtmlTestRunner 
 
 
 
