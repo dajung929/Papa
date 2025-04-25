@@ -6,8 +6,8 @@ rider_caps = {
     #"appium:deviceName" : "실제 디바이스 이름", # 실제 디바이스 사용 시
     "appium:platformVersion" : "14", # 실행 시 개인 버전 입력
     "appium:app" : "/Users/m-dajung/Documents/ui_auto/rider_aos_325_2.apk",
-    "appium:appPackage" : "com.musinsa.soldout",
-    "appium:appActivity" : "com.musinsa.soldout.ui.screen.splash.SplashActivity",
+    "appium:appPackage" : "io.cubecar.rs.rider",
+    "appium:appActivity" : "io.cubecar.rs.rider.ui.intro.SplashActivity",
     "appium:ensureWebviewsHavePages" : True,
     "appium:nativeWebScreenshot" : True,
     "appium:newCommandTimeout" : 0,
