@@ -8,11 +8,6 @@ from time import sleep
 from info.rider_info import rider_start
 from testcase.rider_start import execute
 
-# 사용할 함수 import
-from info.rider_info import rider_start, main_folder
-
-
-
 
 # 로그인
 class sign_in(unittest.TestCase):
@@ -20,7 +15,7 @@ class sign_in(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         
-        self.driver = execute.driver
+        self.driver = rider_start()
         self.driver.implicitly_wait(5)
 
     def test1_login_Button(self):

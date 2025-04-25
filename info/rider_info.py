@@ -8,11 +8,11 @@ rider_caps = {
     "appium:app" : "/Users/dajung/Documents/ui_auto/rider_aos_325_2.apk",
     "appium:appPackage" : "io.cubecar.rs.rider",
     "appium:appActivity" : "io.cubecar.rs.rider.ui.intro.SplashActivity",
-    "appium:ensureWebviewsHavePages" : True,
-    "appium:nativeWebScreenshot" : True,
-    "appium:newCommandTimeout" : 0,
-    "appium:connectHardwareKeyboard" : True, 
-    "appium:unicodeKeyboard" : True, 
+    #"appium:ensureWebviewsHavePages" : True,
+    #"appium:nativeWebScreenshot" : True,
+    #"appium:newCommandTimeout" : 0,
+    #"appium:connectHardwareKeyboard" : True, 
+    #"appium:unicodeKeyboard" : True, 
     #"appium:automationName" : "UiAutomator2",
     #"appium:disableIdLocatorAutocompletion": True # 패키지명 미사용
 }
