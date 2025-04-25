@@ -13,8 +13,8 @@ rider_caps = {
     "appium:newCommandTimeout" : 0,
     "appium:connectHardwareKeyboard" : True, 
     "appium:unicodeKeyboard" : True, 
-    "appium:automationName" : "UiAutomator2",
-    "appium:disableIdLocatorAutocompletion": True # 패키지명 미사용
+    #"appium:automationName" : "UiAutomator2",
+    #"appium:disableIdLocatorAutocompletion": True # 패키지명 미사용
 }
 
 

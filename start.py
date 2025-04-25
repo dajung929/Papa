@@ -7,7 +7,7 @@ import HtmlTestRunner
 
 
 # 페이지 구분을 위해 합쳐두지 않음
-from testcase import rider_start
+from testcase import rider_start,rider_signin
 
 #tet
 
@@ -29,25 +29,25 @@ if __name__ == '__main__':
     # 함수 실행 확인용.
     test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(rider_start.execute))
     
-    # 2. 이어서 진행할 테스트 케이스 (구매자 계정 로그인 xptmxm0)
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_signin.sign_in))
+    # 2. 로그인
+    test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(rider_signin.sign_in))
 
-    # 3. 이어서 진행할 테스트 케이스 (마이페이지 - 배송지 추가 // 당장은 필요 없음)
+    # 3. 케이스 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_mypage.mypage))
 
-    # 4. 구매입찰
+    # 4. 케이스 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_buy_bid.buy_bid))
 
-    # 5. 즉시구매
+    # 5. 케이스 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_buy_now.qa_buy))
     
-    # id 교체 (판매자 계정으로 변경 milki89)
+    # id 교체 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_signin_change.sign_in_change))
 
-    # 6. 판매입찰
+    # 6. 케이스 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_sell_bid.sell_bid))
 
-    # 7. 즉시 판매 케이스 
+    # 7. 케이스 
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_sell_now.sell_now))
 
     # 8. search 
