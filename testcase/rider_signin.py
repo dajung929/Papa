@@ -15,7 +15,7 @@ class sign_in(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         
-        self.driver = rider_start()
+        self.driver = execute.driver
         self.driver.implicitly_wait(5)
 
     def test1_login_Button(self):
