@@ -19,8 +19,8 @@ class execute(unittest.TestCase):
     def setUpClass(self):
 
         # 서버 자동실행 코드 추가 (서버 실행 없이 코드 실행 가능)
-        self.appium_service = AppiumService()
-        self.appium_service.start(args=['-p', '4723'])
+        #self.appium_service = AppiumService()
+        #self.appium_service.start(args=['-p', '4723'])
 
         self.driver = rider_start()
         sleep(5)

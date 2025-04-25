@@ -1,5 +1,4 @@
 
-from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import NoSuchElementException
 
