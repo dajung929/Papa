@@ -7,7 +7,7 @@ import HtmlTestRunner
 
 
 # 페이지 구분을 위해 합쳐두지 않음
-from testcase import qa_start
+from testcase import rider_start
 
 #tet
 
