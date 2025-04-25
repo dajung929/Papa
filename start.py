@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     # 1. 샘플 케이스 실행 (앱 실행 후 광고 배너 팝업 확인 까지)
     # 함수 실행 확인용.
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_start.execute))
+    test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(rider_start.execute))
     
     # 2. 이어서 진행할 테스트 케이스 (구매자 계정 로그인 xptmxm0)
     #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_signin.sign_in))
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # 테스트 실행 + 테스트 결과 보고서 파일 생성
 
     HtmlTestRunner.HTMLTestRunner(
-        output="Reports/Logs",
+        output="Reports",
         report_name="Reports",
         report_title="Test Results",
         combine_reports=True
