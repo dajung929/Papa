@@ -5,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 import unittest
 from time import sleep
 
-from info.rider_info import rider_start
+from info.rider_info import rider_start_cap
 from testcase.rider_start import execute
 
 

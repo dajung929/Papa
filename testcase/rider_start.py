@@ -4,7 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from time import sleep
 import unittest
 
-from info.rider_info import rider_start
+from info.rider_info import rider_appstart
 
 #서버 자동실행/종료
 from appium.webdriver.appium_service import AppiumService
@@ -22,7 +22,7 @@ class execute(unittest.TestCase):
         #self.appium_service = AppiumService()
         #self.appium_service.start(args=['-p', '4723'])
 
-        self.driver = rider_start()
+        self.driver = rider_appstart()
         sleep(5)
 
 
