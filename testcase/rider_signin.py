@@ -1,22 +1,25 @@
 
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.common.exceptions import NoSuchElementException
+from appium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 import unittest
 from time import sleep
 
-from info.rider_info import rider_start_cap
-from testcase.rider_start import execute
+import driver_manager
+from info.rider_info import rider_appstart
+
 
 
 # 로그인
-class sign_in(unittest.TestCase):
+class SignIn(unittest.TestCase):
     
     @classmethod
     def setUpClass(self):
-        
-        self.driver = execute.driver
-        self.driver.implicitly_wait(5)
+        self.driver = driver_manager.driver_instance
+        if self.driver is None:
+            raise Exception("RiderStart에서 driver가 설정되지 않았습니다.")
 
     def test1_login_Button(self):
         try :
@@ -57,8 +60,8 @@ class sign_in(unittest.TestCase):
     def test4_ID_input(self):
         try :
             # 아이디 입력 (ID 필드에 텍스트 입력)
-            input_field = self.driver.find_element_by_id("io.cubecar.rs.rider:id/input_text")
-            input_field.send_keys("djtest3@papa.com") 
+            id_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            id_field.send_keys("djtest3@papa.com") 
             self.driver.implicitly_wait(5)
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
@@ -69,9 +72,8 @@ class sign_in(unittest.TestCase):
         try :
             button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
             button.click()
-            self.driver.implicitly_wait(5)
-        # 오류 추가 (확인용)
-
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(EC.presence_of_element_located((By.ID, "io.cubecar.rs.rider:id/input_text"))).click()
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
             self.driver.quit()
@@ -80,17 +82,17 @@ class sign_in(unittest.TestCase):
     # 비밀번호_입력박스_선택
     def test6_PW_inputbox_tap(self):
         try :
-            inputbox = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
-            inputbox.click()
+            pw_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            pw_field.click()
             self.driver.implicitly_wait(5)
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
             self.driver.quit()
 
     # 비밀번호_입력 (PW : xxxxx)
-    def test07_PW_input(self):
+    def test7_PW_input(self):
         try :
-            input_field = self.driver.find_element_by_id("io.cubecar.rs.rider:id/input_text")
+            input_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
             input_field.send_keys("test12345!") 
             self.driver.implicitly_wait(5)
         except Exception as e:
@@ -109,6 +111,12 @@ class sign_in(unittest.TestCase):
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
             self.driver.quit()
 
+
+    # 테스트 실패 시 자동 드라이버 종료
+    @classmethod
+    def tearDownClass(cls):
+        if cls.driver:
+            cls.driver.quit()
     
     ##### 네트워크 오류 (발생하면 안되는 이슈이나 임시 처리 함)
     #def test08_login_error(self):
