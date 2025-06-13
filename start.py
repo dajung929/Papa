@@ -30,14 +30,17 @@ def run_test_for_device(device):
     test_suite.addTests(loader.loadTestsFromTestCase(rider_signin.SignIn))
 
     # 3. HTML 보고서 출력
-    timestamp = time.strftime("%Y%m%d_%H%M")
-    file_name = f"UI_Test_{device['name']}_{timestamp}"
+    timestamp = time.strftime("%y%m%d_%H.%M")
+    file_name = f"UI_Test_{device['name']}"
+    report_dir = os.path.join("Reports", timestamp)
+    # 폴더가 없으면 생성
+    os.makedirs(report_dir, exist_ok=True)
 
     runner = HTMLTestRunner(
-        output="Reports",
+        output=report_dir,
         report_name=file_name,
-        report_title=f"UI 테스트 결과 - {device['name']}",
-        combine_reports=True
+        report_title=f"{device['name']}",
+        combine_reports=False
     )
 
     print(f"[INFO] {device['name']} - 테스트 시작")
