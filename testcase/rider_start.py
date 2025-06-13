@@ -4,7 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from time import sleep
 import unittest
 import driver_manager
-from info.rider_info import rider_appstart
+from info.rider_info import rider_appstart, get_caps
 
 
 from selenium.common.exceptions import NoSuchElementException
@@ -16,15 +16,24 @@ class execute(unittest.TestCase):
     # 최초 앱 실행
     @classmethod
     def setUpClass(self):
+        device = driver_manager.current_device
+        print(f"[DEBUG] setUpClass device: {device}")
+
+        if device is None:
+            raise Exception("device 정보가 설정되어 있지 않습니다.")
+        
 
 
-        self.driver = rider_appstart()
+        self.driver = rider_appstart(device)
         sleep(3)
+        driver_manager.driver_instance = self.driver
+        print(f"[DEBUG] Appium driver 생성 완료: {self.driver}")
+
         if self.driver is None:
             raise Exception("Appium 드라이버 실행 실패. 테스트를 진행할 수 없습니다.")
         sleep(5)
                 # 📌 driver 저장
-        driver_manager.driver_instance = self.driver
+        
 
 
     # ** 테스트 케이스 앞 test + 숫자 입력 필수

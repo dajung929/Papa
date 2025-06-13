@@ -1,46 +1,64 @@
+# start.py
 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from time import sleep
-import unittest
-import datetime
-import HtmlTestRunner 
-from selenium import webdriver
-from appium.webdriver.appium_service import AppiumService
+import time
+import unittest, os
+from HtmlTestRunner import HTMLTestRunner
+from multiprocessing import Process
+import driver_manager
+from info.rider_info import start_appium_server
+from testcase import rider_start, rider_signin
 
-
-# 페이지 구분을 위해 합쳐두지 않음
-from testcase import rider_start,rider_signin
-
-# Appium 서버 자동 실행
-appium_service = AppiumService()
-if not appium_service.is_running:
-    appium_service.start(args=["-p", "4723"])
+def run_test_for_device(device):
+    # 1. Appium 서버 실행
+    os.environ['ANDROID_HOME'] = '/Users/dajung/Library/Android/sdk'
+    os.environ['ANDROID_SDK_ROOT'] = '/Users/dajung/Library/Android/sdk'
 
 
-# 테스트 수트 구성
-test_suite = unittest.TestSuite()
+    driver_manager.current_device = device
+    service = start_appium_server(device)
 
-loader = unittest.TestLoader()
-test_suite.addTests(loader.loadTestsFromTestCase(rider_start.execute))
-test_suite.addTests(loader.loadTestsFromTestCase(rider_signin.SignIn))
+    if not service.is_running:
+        print(f"[ERROR] Appium 서버 실행 실패 - {device['udid']}")
+        return
+
+    time.sleep(3)  # 안정적 실행 대기
+
+    # 2. 테스트 수트 구성
+    test_suite = unittest.TestSuite()
+    loader = unittest.TestLoader()
+    test_suite.addTests(loader.loadTestsFromTestCase(rider_start.execute))
+    test_suite.addTests(loader.loadTestsFromTestCase(rider_signin.SignIn))
+
+    # 3. HTML 보고서 출력
+    timestamp = time.strftime("%Y%m%d_%H%M")
+    file_name = f"UI_Test_{device['name']}_{timestamp}"
+
+    runner = HTMLTestRunner(
+        output="Reports",
+        report_name=file_name,
+        report_title=f"UI 테스트 결과 - {device['name']}",
+        combine_reports=True
+    )
+
+    print(f"[INFO] {device['name']} - 테스트 시작")
+    runner.run(test_suite)
+
+    # 4. Appium 서버 종료
+    if service.is_running:
+        service.stop()
+        print(f"[INFO] Appium 서버 종료 완료 - {device['name']}")
 
 
+# ▶ 병렬 실행 시작
+if __name__ == "__main__":
+    processes = []
 
-# ========== 실행할 테스트 케이스 목록 END ========== #
+    for device in driver_manager.device_info:
+        p = Process(target=run_test_for_device, args=(device,))
+        p.start()
+        processes.append(p)
 
+    for p in processes:
+        p.join()
 
-
-# 테스트 실행 + 테스트 결과 보고서 파일 생성
-
-HtmlTestRunner.HTMLTestRunner(
-    output="Reports",
-    report_name="Reports",
-    report_title="UI Auto Results",
-    combine_reports=True
-).run(test_suite)
-
-sleep(3)
-
-
-# Appium 서버 종료
-appium_service.stop()
+    print("[INFO] 모든 테스트 완료")
