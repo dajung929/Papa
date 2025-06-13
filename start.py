@@ -1,88 +1,64 @@
+# start.py
 
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from time import sleep
-import unittest
-import HtmlTestRunner # type: ignore
+import time
+import unittest, os
+from HtmlTestRunner import HTMLTestRunner
+from multiprocessing import Process
+import driver_manager
+from info.rider_info import start_appium_server
+from testcase import rider_start, rider_signin
+
+def run_test_for_device(device):
+    # 1. Appium 서버 실행
+    os.environ['ANDROID_HOME'] = '/Users/dajung/Library/Android/sdk'
+    os.environ['ANDROID_SDK_ROOT'] = '/Users/dajung/Library/Android/sdk'
 
 
+    driver_manager.current_device = device
+    service = start_appium_server(device)
 
-# 페이지 구분을 위해 합쳐두지 않음
-from testcase import qa_start
+    if not service.is_running:
+        print(f"[ERROR] Appium 서버 실행 실패 - {device['udid']}")
+        return
 
-#tet
+    time.sleep(3)  # 안정적 실행 대기
 
-
-if __name__ == '__main__':
+    # 2. 테스트 수트 구성
     test_suite = unittest.TestSuite()
+    loader = unittest.TestLoader()
+    test_suite.addTests(loader.loadTestsFromTestCase(rider_start.execute))
+    test_suite.addTests(loader.loadTestsFromTestCase(rider_signin.SignIn))
 
-    # 주의
-    # ** 첫 번째로 실행하는 테스트 케이스 : setUpClass > self.driver = qa_start()
-    # ** 이후 이어서 진행 되는 테스트 케이스 : setUpClass > self.driver = test.wd
-    #                                                        ㄴ 앞서 진행 되었던 테스트 케이스 클래스의 정보 입력(ex. sapmle 케이스의 test 클래스)
+    # 3. HTML 보고서 출력
+    timestamp = time.strftime("%Y%m%d_%H%M")
+    file_name = f"UI_Test_{device['name']}_{timestamp}"
 
-
-
-    # ========== 실행할 테스트 케이스 목록 START ========== #
-    # (추가한 순서대로 테스트 케이스 실행)
-
-    # 1. 샘플 케이스 실행 (앱 실행 후 광고 배너 팝업 확인 까지)
-    # 함수 실행 확인용.
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_start.execute))
-    
-    # 2. 이어서 진행할 테스트 케이스 (구매자 계정 로그인 xptmxm0)
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_signin.sign_in))
-
-    # 3. 이어서 진행할 테스트 케이스 (마이페이지 - 배송지 추가 // 당장은 필요 없음)
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_mypage.mypage))
-
-    # 4. 구매입찰
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_buy_bid.buy_bid))
-
-    # 5. 즉시구매
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_buy_now.qa_buy))
-    
-    # id 교체 (판매자 계정으로 변경 milki89)
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_signin_change.sign_in_change))
-
-    # 6. 판매입찰
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_sell_bid.sell_bid))
-
-    # 7. 즉시 판매 케이스 
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_sell_now.sell_now))
-
-    # 8. search 
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_search.search_result))
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_search.search_main))
-    #test_suite.addTest(unittest.TestLoader().loadTestsFromTestCase(qa_search.search_auto_keyword))
-
-
-    # ========== 실행할 테스트 케이스 목록 END ========== #
-
-
-
-    # 테스트 실행 + 테스트 결과 보고서 파일 생성
-
-    HtmlTestRunner.HTMLTestRunner(
-        output="Reports/Logs",
-        report_name="Reports",
-        report_title="Test Results",
+    runner = HTMLTestRunner(
+        output="Reports",
+        report_name=file_name,
+        report_title=f"UI 테스트 결과 - {device['name']}",
         combine_reports=True
-    ).run(test_suite)
+    )
+
+    print(f"[INFO] {device['name']} - 테스트 시작")
+    runner.run(test_suite)
+
+    # 4. Appium 서버 종료
+    if service.is_running:
+        service.stop()
+        print(f"[INFO] Appium 서버 종료 완료 - {device['name']}")
 
 
-    sleep(3)
+# ▶ 병렬 실행 시작
+if __name__ == "__main__":
+    processes = []
 
-    # google 드라이브에 reports 파일 업로드
-    #reports_upload(reports_folder_id)
+    for device in driver_manager.device_info:
+        p = Process(target=run_test_for_device, args=(device,))
+        p.start()
+        processes.append(p)
 
+    for p in processes:
+        p.join()
 
-    # 테스트 종료 안내 슬랙 메세지 전송
-    #send_slack_message("##### 테스트 종료")
-    #sleep(1)
-
-    #서버 자동 종료
-    @classmethod
-    def server_stop(self):
-    #서버 자동종료 (코드를 실행시키면 오류 발생, 아래 quit 코드만으로 종료 가능한듯)
-        self.appium_service.stop()
-        #self.driver.quit()
+    print("[INFO] 모든 테스트 완료")
