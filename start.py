@@ -4,7 +4,7 @@ import time
 import unittest, os
 from HtmlTestRunner import HTMLTestRunner
 from multiprocessing import Process
-import driver_manager
+import appium_driver
 from info.rider_info import start_appium_server
 from testcase import rider_start, rider_signin
 
@@ -14,7 +14,7 @@ def run_test_for_device(device):
     os.environ['ANDROID_SDK_ROOT'] = '/Users/dajung/Library/Android/sdk'
 
 
-    driver_manager.current_device = device
+    appium_driver.current_device = device
     service = start_appium_server(device)
 
     if not service.is_running:
@@ -56,7 +56,7 @@ def run_test_for_device(device):
 if __name__ == "__main__":
     processes = []
 
-    for device in driver_manager.device_info:
+    for device in appium_driver.device_info:
         p = Process(target=run_test_for_device, args=(device,))
         p.start()
         processes.append(p)

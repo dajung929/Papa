@@ -4,11 +4,11 @@ from selenium.webdriver.common.by import By
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from information import device_test_data
+from rider_information import device_test_data
 import unittest
 from time import sleep
 
-import driver_manager
+import appium_driver
 from info.rider_info import rider_appstart
 
 
@@ -18,7 +18,7 @@ class SignIn(unittest.TestCase):
     
     @classmethod
     def setUpClass(self):
-        self.driver = driver_manager.driver_instance
+        self.driver = appium_driver.driver_instance
         if self.driver is None:
             raise Exception("RiderStart에서 driver가 설정되지 않았습니다.")
 
@@ -61,7 +61,7 @@ class SignIn(unittest.TestCase):
     def test4_ID_input(self):
         try:
             # 현재 디바이스 UDID 가져오기
-            current_udid = driver_manager.current_device["udid"]
+            current_udid = appium_driver.current_device["udid"]
             # 해당 UDID에 맞는 계정 정보 가져오기
             user_info = device_test_data.get(current_udid)
 
@@ -105,7 +105,7 @@ class SignIn(unittest.TestCase):
     def test7_PW_input(self):
         try :
             # 현재 디바이스 UDID 가져오기
-            current_udid = driver_manager.current_device["udid"]
+            current_udid = appium_driver.current_device["udid"]
             # 해당 UDID에 맞는 계정 정보 가져오기
             user_info = device_test_data.get(current_udid)
 

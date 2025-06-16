@@ -3,7 +3,7 @@ import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from time import sleep
 import unittest
-import driver_manager
+import appium_driver
 from info.rider_info import rider_appstart, get_caps
 
 
@@ -16,7 +16,7 @@ class execute(unittest.TestCase):
     # 최초 앱 실행
     @classmethod
     def setUpClass(self):
-        device = driver_manager.current_device
+        device = appium_driver.current_device
         print(f"[DEBUG] setUpClass device: {device}")
 
         if device is None:
@@ -26,7 +26,7 @@ class execute(unittest.TestCase):
 
         self.driver = rider_appstart(device)
         sleep(3)
-        driver_manager.driver_instance = self.driver
+        appium_driver.driver_instance = self.driver
         print(f"[DEBUG] Appium driver 생성 완료: {self.driver}")
 
         if self.driver is None:
