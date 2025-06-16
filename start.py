@@ -40,7 +40,7 @@ def run_test_for_device(device):
         output=report_dir,
         report_name=file_name,
         report_title=f"{device['name']}",
-        combine_reports=False
+        combine_reports=True
     )
 
     print(f"[INFO] {device['name']} - 테스트 시작")
