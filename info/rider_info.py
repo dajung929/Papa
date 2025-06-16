@@ -8,7 +8,7 @@ def get_caps(device):
         "udid": device["udid"],
         "platformVersion": device["platformVersion"],
         #"appium:appiumPort": device["appiumPort"],
-        "app": "/Users/dajung/Documents/ui_auto/rider_aos_330_1.apk",
+        "app": "/Users/dajung/Documents/ui_auto/rider_aos_330_1.apk", # 실기기 진행시 앱 설치 후 생략 가능
         "appPackage": "io.cubecar.rs.rider",
         "appActivity": "io.cubecar.rs.rider.ui.intro.SplashActivity",
         "automationName": "UiAutomator2",
@@ -25,7 +25,7 @@ def start_appium_server(device):
     service.start(args=[
         "-p", str(device["appiumPort"])
     ])
-    print(f"[INFO] Appium 서버 실행됨 - UDID: {device['name']}, PORT: {device['appiumPort']}")
+    print(f"[INFO] Appium 서버 실행됨 - NAME: {device['name']}, PORT: {device['appiumPort']}")
     return service
 
 

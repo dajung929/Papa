@@ -85,8 +85,7 @@ class SignIn(unittest.TestCase):
         try :
             button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
             button.click()
-            wait = WebDriverWait(self.driver, 10)
-            wait.until(EC.presence_of_element_located((By.ID, "io.cubecar.rs.rider:id/input_text"))).click()
+            sleep(3)
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
             self.driver.quit()
@@ -115,7 +114,7 @@ class SignIn(unittest.TestCase):
 
             password = user_info["password"]
 
-        # 아이디 입력 (ID 필드에 텍스트 입력)
+        # 비밀번호 입력 (PW 필드에 텍스트 입력)
             id_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
             id_field.send_keys(password)
             self.driver.implicitly_wait(5)
@@ -131,7 +130,7 @@ class SignIn(unittest.TestCase):
             button.click()
             self.driver.implicitly_wait(5)
         # 오류 추가 (확인용)
-
+            sleep(3)
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
             self.driver.quit()
