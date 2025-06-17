@@ -6,7 +6,7 @@ from HtmlTestRunner import HTMLTestRunner
 from multiprocessing import Process
 import appium_driver
 from info.rider_info import start_appium_server
-from testcase import rider_start, rider_signin
+from rider_case import rider_start, rider_signin
 
 def run_test_for_device(device):
     # 1. Appium 서버 실행
