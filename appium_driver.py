@@ -7,7 +7,8 @@ device_info = [
         "appiumPort": 4723,
         "name": "AOS14_애뮬",
         "platformVersion": "14",
-        "chomeDriverExecutable": "/usr/local/bin/chromedriver-137"
+        "chomeDriverExecutable": "/usr/local/bin/chromedriver-137",
+        "platformName": "Android"
     },
     {
         "udid": "emulator-5556",
@@ -15,6 +16,15 @@ device_info = [
         "appiumPort": 4725,
         "name": "AOS15_애뮬",
         "platformVersion": "15",
-        "chomeDriverExecutable": "/usr/local/bin/chromedriver-124"
+        "chomeDriverExecutable": "/usr/local/bin/chromedriver-124",
+        "platformName": "Android"
+    },
+        {
+        "platformName": "iOS",
+        "deviceName": "iPhone 16 Pro",
+        "udid": "00008030-000D19512210802E",  # 실제 기기 UDID
+        "platformVersion": "18.4",
+        "systemPort": 8100,
+        "appiumPort": 4727
     }
 ]

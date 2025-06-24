@@ -2,22 +2,36 @@ from appium import webdriver
 from appium.webdriver.appium_service import AppiumService
 
 def get_caps(device):
-    return {
-        "platformName": "Android",
-        "deviceName": device["udid"],
-        "udid": device["udid"],
-        "platformVersion": device["platformVersion"],
-        #"appium:appiumPort": device["appiumPort"],
-        "app": "/Users/dajung/Documents/ui_auto/rider_aos_330_1.apk", # 실기기 진행시 앱 설치 후 생략 가능
-        "appPackage": "io.cubecar.rs.rider",
-        "appActivity": "io.cubecar.rs.rider.ui.intro.SplashActivity",
-        "automationName": "UiAutomator2",
-        "systemPort": device["systemPort"]
-        # "appium:disableIdLocatorAutocompletion": True  # 필요시 사용
-    }
+    if device["platformName"].lower() == "android":
+        return {
+            "platformName": "Android",
+            "deviceName": device["deviceName"],
+            "udid": device["udid"],
+            "platformVersion": device["platformVersion"],
+            "automationName": "UiAutomator2",
+            "app": "/Users/dajung/Documents/ui_auto/rider_aos_330_1.apk",  # 실기기면 생략 가능
+            "appPackage": "io.cubecar.rs.rider",
+            "appActivity": "io.cubecar.rs.rider.ui.intro.SplashActivity",
+            "systemPort": device["systemPort"]
+        }
+
+    elif device["platformName"].lower() == "ios":
+        return {
+            "platformName": "iOS",
+            "deviceName": device["deviceName"],
+            "udid": device["udid"],
+            "platformVersion": device["platformVersion"],
+            "automationName": "XCUITest",
+            "bundleId": "com.example.rider",  # iOS용 번들 ID로 변경
+            "xcodeOrgId": "YOUR_TEAM_ID",     # 실기기 테스트시 필요
+            "xcodeSigningId": "iPhone Developer",
+            "wdaLocalPort": device["systemPort"]  # 병렬 테스트 시 필수
+        }
+
+    else:
+        raise ValueError("지원하지 않는 platformName입니다. 'Android' 또는 'iOS'여야 합니다.")
 
 # 폴더 경로
-main_folder = "/Users/dajung/Documents" # 실행 시 개인 경로 입력
 
 
 def start_appium_server(device):

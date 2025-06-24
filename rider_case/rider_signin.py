@@ -23,11 +23,16 @@ class SignIn(unittest.TestCase):
             raise Exception("RiderStart에서 driver가 설정되지 않았습니다.")
 
     def test1_login_Button(self):
-        try :
-            button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/btnLogin")
+        try:
+            if self.platform == "android":
+                button = self.driver.find_element(AppiumBy.ID, "io.cubecar.rs.rider:id/btnLogin")
+            elif self.platform == "ios":
+                button = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, "btnLogin")  # iOS는 보통 accessibility id 사용
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+            
             button.click()
             self.driver.implicitly_wait(5)
-        # 오류 추가 (확인용)
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
@@ -35,11 +40,16 @@ class SignIn(unittest.TestCase):
 
     # 이메일 유형 로그인 버튼 클릭
     def test2_email_login_button(self):
-        try :
-            button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/btnEmail")
+        try:
+            if self.platform == "android":
+                button = self.driver.find_element(AppiumBy.ID, "io.cubecar.rs.rider:id/btnEmail")
+            elif self.platform == "ios":
+                button = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, "btnEmail")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+
             button.click()
             self.driver.implicitly_wait(5)
-        # 오류 추가 (확인용)
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
@@ -48,7 +58,13 @@ class SignIn(unittest.TestCase):
         # 이메일 주소 인풋박스 영역 클릭
     def test3_inputbox_tab(self):
         try :
-            inputbox = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            if self.platform == "android":
+                inputbox = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            elif self.platform == "ios":
+                inputbox = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="input_text")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+            
             inputbox.click()
             self.driver.implicitly_wait(5)
         # 오류 추가 (확인용)
@@ -60,6 +76,7 @@ class SignIn(unittest.TestCase):
     # 아이디_입력 (ID : information.py에 정의된 계정 정보 사용)
     def test4_ID_input(self):
         try:
+            
             # 현재 디바이스 UDID 가져오기
             current_udid = appium_driver.current_device["udid"]
             # 해당 UDID에 맞는 계정 정보 가져오기
@@ -71,7 +88,13 @@ class SignIn(unittest.TestCase):
             user_id = user_info["user_id"]
 
         # 아이디 입력 (ID 필드에 텍스트 입력)
-            id_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            if self.platform == "android":
+                id_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            elif self.platform == "ios":
+                id_field = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="input_text")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+            
             id_field.send_keys(user_id)
             self.driver.implicitly_wait(5)
 
@@ -83,7 +106,13 @@ class SignIn(unittest.TestCase):
     # 다음 버튼 클릭
     def test5_next_button(self):
         try :
-            button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
+            if self.platform == "android":
+                button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
+            elif self.platform == "ios":
+                button = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="next_btn")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+
             button.click()
             sleep(3)
         except Exception as e:
@@ -94,7 +123,13 @@ class SignIn(unittest.TestCase):
     # 비밀번호_입력박스_선택
     def test6_PW_inputbox_tap(self):
         try :
-            pw_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            if self.platform == "android":
+                pw_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            elif self.platform == "ios":
+                pw_field = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="input_text")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")  
+
             pw_field.click()
             self.driver.implicitly_wait(5)
         except Exception as e:
@@ -115,8 +150,14 @@ class SignIn(unittest.TestCase):
             password = user_info["password"]
 
         # 비밀번호 입력 (PW 필드에 텍스트 입력)
-            id_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
-            id_field.send_keys(password)
+            if self.platform == "android":
+                pw_field = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/input_text")
+            elif self.platform == "ios":
+                pw_field = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="input_text")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+            
+            pw_field.send_keys(password)
             self.driver.implicitly_wait(5)
 
         except Exception as e:
@@ -126,7 +167,14 @@ class SignIn(unittest.TestCase):
     # 다음 버튼 클릭
     def test8_next_button(self):
         try :
-            button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
+        # 다음 버튼 클릭
+            if self.platform == "android": 
+                button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/next_btn")
+            elif self.platform == "ios":
+                button = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="next_btn")
+            else:
+                raise Exception("지원하지 않는 플랫폼입니다.")
+            
             button.click()
             self.driver.implicitly_wait(5)
         # 오류 추가 (확인용)

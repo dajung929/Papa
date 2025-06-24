@@ -31,7 +31,7 @@ def moweb_start(device):
         print(f"[INFO] {device['udid']} - Appium driver 생성 시도 중...")
         caps = get_caps(device)
         driver = webdriver.Remote(f"http://127.0.0.1:{device['appiumPort']}", caps)
-        driver.get("https://www.google.com")  # Chrome 브라우저로 시작
+        driver.get("https://www.google.com")  
         driver.implicitly_wait(3)
         print(f"[INFO] {device['udid']} - Appium driver 생성 성공")
         return driver
