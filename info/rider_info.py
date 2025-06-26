@@ -5,7 +5,7 @@ def get_caps(device):
     if device["platformName"].lower() == "android":
         return {
             "platformName": "Android",
-            "deviceName": device["deviceName"],
+
             "udid": device["udid"],
             "platformVersion": device["platformVersion"],
             "automationName": "UiAutomator2",
@@ -18,12 +18,12 @@ def get_caps(device):
     elif device["platformName"].lower() == "ios":
         return {
             "platformName": "iOS",
-            "deviceName": device["deviceName"],
+
             "udid": device["udid"],
             "platformVersion": device["platformVersion"],
             "automationName": "XCUITest",
-            "bundleId": "com.example.rider",  # iOS용 번들 ID로 변경
-            "xcodeOrgId": "YOUR_TEAM_ID",     # 실기기 테스트시 필요
+            "bundleId": "io.cubecar.rs.riderapp",  # iOS용 번들 ID로 변경
+            "xcodeOrgId": "5FG8AK3G25",     # 실기기 테스트시 필요
             "xcodeSigningId": "iPhone Developer",
             "wdaLocalPort": device["systemPort"]  # 병렬 테스트 시 필수
         }

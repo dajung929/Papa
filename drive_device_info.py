@@ -1,5 +1,6 @@
 driver_instance = None
 current_device = None
+report_dir = None
 device_info = [
     {
         "udid": "emulator-5554",
@@ -21,10 +22,11 @@ device_info = [
     },
         {
         "platformName": "iOS",
-        "deviceName": "iPhone 16 Pro",
-        "udid": "00008030-000D19512210802E",  # 실제 기기 UDID
-        "platformVersion": "18.4",
+        "deviceName": "iPhone XS Max",
+        "udid": "00008020-001A416A1452002E",  # 실제 기기 UDID
+        "platformVersion": "17.4.1",
         "systemPort": 8100,
-        "appiumPort": 4727
+        "appiumPort": 4727,
+        "name": "아이폰 Xs max"
     }
 ]
