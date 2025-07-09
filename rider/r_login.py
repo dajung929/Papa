@@ -40,7 +40,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 이메일 유형 로그인 버튼 클릭
@@ -60,7 +60,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
  
 
         # 이메일 주소 인풋박스 영역 클릭
@@ -80,7 +80,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 아이디_입력 (ID : information.py에 정의된 계정 정보 사용)
@@ -122,7 +122,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
         
 
 
@@ -143,7 +143,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
       
 
 
@@ -164,7 +164,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 비밀번호_입력 (PW : xxxxx)
@@ -195,7 +195,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 다음 버튼 클릭
@@ -216,7 +216,7 @@ class SignIn(unittest.TestCase):
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     

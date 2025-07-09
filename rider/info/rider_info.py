@@ -11,7 +11,8 @@ def rider_caps(device):
             #"app": "/Users/dajung/Documents/ui_auto/rider_aos_330_1.apk",  # 실기기면 생략 가능
             "appPackage": "io.cubecar.rs.rider",
             "appActivity": "io.cubecar.rs.rider.ui.intro.SplashActivity",
-            "systemPort": device["systemPort"]
+            "systemPort": device["systemPort"],
+            "appium:noReset": True,  # 앱 상태 초기화 방지
         }
 
     elif device["platformName"].lower() == "ios":

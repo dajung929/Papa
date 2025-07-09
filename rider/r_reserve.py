@@ -36,7 +36,7 @@ class reserve(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 출발지 설정 1단계
@@ -58,7 +58,7 @@ class reserve(unittest.TestCase):
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
     # 출발지 설정 2단계
     def test3_pickup_set(self):
@@ -74,8 +74,7 @@ class reserve(unittest.TestCase):
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
-
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
     # 도착지 설정 1단계
     def test4_pickdrop_input(self):
@@ -96,7 +95,7 @@ class reserve(unittest.TestCase):
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
     # 도착지 설정 2단계
     def test5_pickdrop_set(self):
@@ -112,7 +111,7 @@ class reserve(unittest.TestCase):
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 일자 선택
@@ -134,11 +133,10 @@ class reserve(unittest.TestCase):
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
 
-            
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
         # 차종, 결제수단 선택
@@ -174,12 +172,12 @@ class reserve(unittest.TestCase):
                 confirm_btn.click()
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
-
             
+        except Exception as e:
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
+
             sleep(3)
 
-        except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
 
         # 예약하기 진행
     def test8_reserve_btn(self):
@@ -206,8 +204,7 @@ class reserve(unittest.TestCase):
 
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
-
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
         # 확인 버튼 클릭
@@ -225,7 +222,7 @@ class reserve(unittest.TestCase):
             sleep(3)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
 

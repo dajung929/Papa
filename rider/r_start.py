@@ -33,33 +33,26 @@ class execute(unittest.TestCase):
         
 
         # 접근 권한 페이지 노출될 경우 (ios의 경우 test case 제외)
-    def test1_permission(self):
-        try:
-            if self.platform == "android":
-                try:
-                    # 퍼미션 화면이 노출될 경우 확인 버튼 클릭
-                    permission_button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/tv_next")
-                    permission_button.click()
+    def test1_permission1(self):
+        if self.platform == "android":
+            try:
+                # 퍼미션 화면이 노출될 경우 확인 버튼 클릭
+                permission_button = self.driver.find_element(by=AppiumBy.ID, value="io.cubecar.rs.rider:id/tv_next")
+                permission_button.click()
 
-                except NoSuchElementException:
-                    print("[INFO] 권한 안내 요소가 없어 다음 케이스로 이동합니다.")
-                    self.test2_permission_popup()
+            except NoSuchElementException:
+                self.skipTest("[SKIP] 권한 설졍 기 완료로 미표시")
 
-            elif self.platform == "ios":
-                self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
+        elif self.platform == "ios":
+            self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
 
-            else:
+        else:
                 raise Exception(f"[ERROR] 지원하지 않는 플랫폼입니다: {self.platform}")
 
-            self.driver.implicitly_wait(5)
-
-        except NoSuchElementException:
-            print("요소를 찾을 수 없어 test2로 넘어갑니다.")
-            self.test2_permission_popup()
-
+        self.driver.implicitly_wait(5)
 
         # 권한 팝업 (위치정보, 알림, 카메라...)
-    def test2_permission_popup(self): 
+    def test2_permission2(self): 
         if self.platform == "android":
             try:
                 # 위치정보, 카메라 팝업에서 사용중일때 허용 버튼을 2번 클릭
@@ -73,8 +66,8 @@ class execute(unittest.TestCase):
                 allow_btn.click()
                 sleep(1)
 
-            except NoSuchElementException as e:
-                print("권한 팝업 버튼을 찾을 수 없습니다:", e)
+            except NoSuchElementException:
+                self.skipTest("[SKIP] 권한 설졍 기 완료로 미표시")
 
         elif self.platform == "ios":
             self.skipTest("[SKIP] iOS는 권한 팝업 미표시")

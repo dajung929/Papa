@@ -45,7 +45,7 @@ class Tap(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
     # 하단 탭바 중 '전체보기' 클릭
@@ -71,7 +71,7 @@ class Tap(unittest.TestCase):
             print(f"[INFO] 스크린샷 저장 완료: {filepath}")
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
         # 하단 탭 바 중 '홈' 클릭
@@ -89,7 +89,7 @@ class Tap(unittest.TestCase):
         # 오류 추가 (확인용)
 
         except Exception as e:
-            print(f"예상하지 못한 이슈로 인해 종료: {e}")
+            self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
   
 
 

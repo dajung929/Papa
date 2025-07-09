@@ -25,9 +25,9 @@ def run_test_for_device(device):
     test_suite = unittest.TestSuite()
     loader = unittest.TestLoader()
     test_suite.addTests(loader.loadTestsFromTestCase(r_start.execute))
-    test_suite.addTests(loader.loadTestsFromTestCase(r_login.SignIn))
+    #test_suite.addTests(loader.loadTestsFromTestCase(r_login.SignIn))
     test_suite.addTests(loader.loadTestsFromTestCase(r_tap.Tap))
-    #test_suite.addTests(loader.loadTestsFromTestCase(r_reserve.reserve))
+    test_suite.addTests(loader.loadTestsFromTestCase(r_reserve.reserve))
 
     # 3. HTML 보고서 출력
     timestamp = time.strftime("%y%m%d_%H%M")
