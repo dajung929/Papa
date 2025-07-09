@@ -3,9 +3,8 @@ import datetime
 from appium.webdriver.common.appiumby import AppiumBy
 from time import sleep
 import unittest
-import drive_device_info
-from info.rider_info import rider_appstart, get_caps
-
+import appium_device_info
+from rider.info.rider_info import rider_appstart
 
 from selenium.common.exceptions import NoSuchElementException
 
@@ -15,35 +14,25 @@ class execute(unittest.TestCase):
 
     # 최초 앱 실행
     @classmethod
-    def setUpClass(self):
-        device = drive_device_info.current_device
-        self.platform = drive_device_info.current_device["platformName"].lower()
-        print(f"[DEBUG] setUpClass device: {device}")
+    def setUpClass(cls):
+        device = appium_device_info.current_device
+        cls.platform = appium_device_info.current_device["platformName"].lower()
 
         if device is None:
             raise Exception("device 정보가 설정되어 있지 않습니다.")
         
-
-
-        self.driver = rider_appstart(device)
+        cls.driver = rider_appstart(device)
         sleep(3)
-        drive_device_info.driver_instance = self.driver
 
+        appium_device_info.driver_instance = cls.driver # 다음 테스트 케이스에서 사용할 수 있도록 드라이버 저장
 
-        print(f"[DEBUG] Appium driver 생성 완료: {self.driver}")
-
-        if self.driver is None:
+        if cls.driver is None:
             raise Exception("Appium 드라이버 실행 실패. 테스트를 진행할 수 없습니다.")
         sleep(5)
                 # 📌 driver 저장
         
 
-
-    # ** 테스트 케이스 앞 test + 숫자 입력 필수
-    # ** test로 test case임을 인식하여 실행
-    # ** 01, 02, 03 ... 숫자 순으로 case 실행
-
-        # 접근 권한 페이지 노출될 경우
+        # 접근 권한 페이지 노출될 경우 (ios의 경우 test case 제외)
     def test1_permission(self):
         try:
             if self.platform == "android":
@@ -57,7 +46,7 @@ class execute(unittest.TestCase):
                     self.test2_permission_popup()
 
             elif self.platform == "ios":
-                print("iOS는 권한팝업 미노출로 PASS")
+                self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
 
             else:
                 raise Exception(f"[ERROR] 지원하지 않는 플랫폼입니다: {self.platform}")
@@ -88,7 +77,8 @@ class execute(unittest.TestCase):
                 print("권한 팝업 버튼을 찾을 수 없습니다:", e)
 
         elif self.platform == "ios":
-                print("iOS는 권한팝업 미노출로 PASS")
+            self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
+            
         else:
             print("[ERROR] 지원하지 않는 플랫폼입니다.")
 

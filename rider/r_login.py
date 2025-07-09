@@ -9,8 +9,8 @@ from login_info import device_test_data
 import unittest, os, base64
 from time import sleep
 
-import drive_device_info
-from info.rider_info import rider_appstart
+import appium_device_info
+from rider.info.rider_info import rider_appstart
 
 
 
@@ -18,10 +18,10 @@ from info.rider_info import rider_appstart
 class SignIn(unittest.TestCase):
     
     @classmethod
-    def setUpClass(self):
-        self.driver = drive_device_info.driver_instance
-        self.platform = drive_device_info.current_device["platformName"].lower()
-        if self.driver is None:
+    def setUpClass(cls):
+        cls.driver = appium_device_info.driver_instance
+        cls.platform = appium_device_info.current_device["platformName"].lower()
+        if cls.driver is None:
             raise Exception("RiderStart에서 driver가 설정되지 않았습니다.")
 
     def test1_login_Button(self):
@@ -37,11 +37,11 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+
 
     # 이메일 유형 로그인 버튼 클릭
     def test2_email_login_button(self):
@@ -57,11 +57,11 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+ 
 
         # 이메일 주소 인풋박스 영역 클릭
     def test3_inputbox_tab(self):
@@ -77,18 +77,18 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+
 
     # 아이디_입력 (ID : information.py에 정의된 계정 정보 사용)
     def test4_ID_input(self):
         try:
             
             # 현재 디바이스 UDID 가져오기
-            current_udid = drive_device_info.current_device["udid"]
+            current_udid = appium_device_info.current_device["udid"]
             # 해당 UDID에 맞는 계정 정보 가져오기
             user_info = device_test_data.get(current_udid)
 
@@ -119,11 +119,11 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+        
 
 
     # 다음 버튼 클릭
@@ -140,11 +140,11 @@ class SignIn(unittest.TestCase):
             sleep(3)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+      
 
 
     # 비밀번호_입력박스_선택
@@ -161,17 +161,17 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+
 
     # 비밀번호_입력 (PW : xxxxx)
     def test7_PW_input(self):
         try :
             # 현재 디바이스 UDID 가져오기
-            current_udid = drive_device_info.current_device["udid"]
+            current_udid = appium_device_info.current_device["udid"]
             # 해당 UDID에 맞는 계정 정보 가져오기
             user_info = device_test_data.get(current_udid)
 
@@ -192,11 +192,11 @@ class SignIn(unittest.TestCase):
             self.driver.implicitly_wait(5)
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
+
 
     # 다음 버튼 클릭
     def test8_next_button(self):
@@ -211,33 +211,13 @@ class SignIn(unittest.TestCase):
             
             button.click()
             self.driver.implicitly_wait(5)
-        # 오류 추가 (확인용)
-            sleep(3)
-
-            # ▶ 스크린샷 경로 설정 (Reports/{timestamp}/Screenshots/)
-            screenshots_dir = os.path.join(drive_device_info.report_dir, "Screenshots")
-            os.makedirs(screenshots_dir, exist_ok=True)
-
-            filename = f"{drive_device_info.current_device['name']}_login.png"
-            filepath = os.path.join(screenshots_dir, filename)
-            self.driver.save_screenshot(filepath)
-            print(f"[INFO] 스크린샷 저장 완료: {filepath}")
 
         except NoSuchElementException:
-            print("[INFO] 이미 로그인되어 있거나 로그인 버튼이 없어 다음 단계로 넘어갑니다.")
+            self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
 
         except Exception as e:
             print(f"예상하지 못한 이슈로 인해 종료: {e}")
-            self.driver.quit()
 
 
-    # 테스트 실패 시 자동 드라이버 종료
-    @classmethod
-    def tearDownClass(cls):
-        if cls.driver:
-            cls.driver.quit()
     
-    ##### 네트워크 오류 (발생하면 안되는 이슈이나 임시 처리 함)
-    #def test08_login_error(self):
-    #    self.driver.find_element(by=AppiumBy.ID, value="android:id/button1").click()
-    #    sleep(5)
+   
