@@ -5,7 +5,7 @@ from HtmlTestRunner import HTMLTestRunner
 from multiprocessing import Process
 import appium_device_info
 from rider.info.rider_info import start_appium_server
-from rider import rider_login, rider_reserve, rider_start, rider_tap
+from rider import r_login, r_reserve, r_start, r_tap
 
 def run_test_for_device(device):
     # 1. Appium 서버 실행
@@ -24,10 +24,10 @@ def run_test_for_device(device):
     # 2. 테스트 수트 구성
     test_suite = unittest.TestSuite()
     loader = unittest.TestLoader()
-    test_suite.addTests(loader.loadTestsFromTestCase(rider_start.execute))
-    test_suite.addTests(loader.loadTestsFromTestCase(rider_login.SignIn))
-    test_suite.addTests(loader.loadTestsFromTestCase(rider_tap.Tap))
-    #test_suite.addTests(loader.loadTestsFromTestCase(rider_reserve.reserve))
+    test_suite.addTests(loader.loadTestsFromTestCase(r_start.execute))
+    test_suite.addTests(loader.loadTestsFromTestCase(r_login.SignIn))
+    test_suite.addTests(loader.loadTestsFromTestCase(r_tap.Tap))
+    #test_suite.addTests(loader.loadTestsFromTestCase(r_reserve.reserve))
 
     # 3. HTML 보고서 출력
     timestamp = time.strftime("%y%m%d_%H%M")
