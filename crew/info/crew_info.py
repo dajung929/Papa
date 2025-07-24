@@ -27,7 +27,10 @@ main_folder = "/Users/dajung/Documents" # 실행 시 개인 경로 입력
 
 # 앱 실행
 def crew_start() : 
-    driver = webdriver.Remote("http://127.0.0.1:4723", crew_caps)
-
-    driver.implicitly_wait(3)
-    return driver
+    try:
+        driver = webdriver.Remote("http://127.0.0.1:4723", crew_caps)
+        driver.implicitly_wait(3)
+        return driver
+    except Exception as e:
+        print(f"Error starting Appium driver: {e}")
+        raise

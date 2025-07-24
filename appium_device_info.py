@@ -4,7 +4,7 @@ report_dir = None
 device_info = [
     # {
     #     "udid": "emulator-5554",
-    #     "systemPort": 8200,
+    #     "systemPort": 8300,
     #     "appiumPort": 4723,
     #     "name": "AOS14_애뮬",
     #     "platformVersion": "14",
@@ -13,7 +13,7 @@ device_info = [
     # },
     # {
     #     "udid": "emulator-5556",
-    #     "systemPort": 8201,
+    #     "systemPort": 8400,
     #     "appiumPort": 4725,
     #     "name": "AOS15_애뮬",
     #     "platformVersion": "15",
@@ -30,7 +30,7 @@ device_info = [
     },
             {
         "udid": "R3CT90F9JJD",  # 실제 기기 UDID
-        "systemPort": 8203,
+        "systemPort": 8200,
         "appiumPort": 4729,
         "name": "갤럭시 폴드 4",
         "platformVersion": "15",

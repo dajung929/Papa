@@ -1,5 +1,6 @@
 from appium import webdriver
 from appium.webdriver.appium_service import AppiumService
+import traceback
 
 def rider_caps(device):
     if device["platformName"].lower() == "android":
@@ -47,11 +48,8 @@ def rider_appstart(device):
         caps = rider_caps(device)
         driver = webdriver.Remote(f"http://127.0.0.1:{device['appiumPort']}", caps)
         driver.implicitly_wait(3)
-        print(f"[INFO] {device['udid']} - Appium driver 생성 성공")
         return driver
     except Exception as e:
-        print(f"[ERROR] {device['udid']} - 앱 실행 중 오류 발생: {e}")
-        import traceback
         traceback.print_exc()
         return None
 

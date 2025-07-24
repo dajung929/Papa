@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from login_info import device_test_data
 import unittest, os, base64
+from unittest import SkipTest
 from time import sleep
 import appium_device_info
 
@@ -23,13 +24,13 @@ class Tap(unittest.TestCase):
     def test1_main_popup(self):
         try:
             if self.platform == "android":
-                main_popup = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().className("android.view.View").instance(4)')
+                main_popup = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().className("android.view.View").instance(1)')
                 if main_popup.is_displayed():
                     close_btn = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("닫기")') 
                     close_btn.click()
                 else:
-                    print("메인 팝업 미표기로 PASS")
-                    return 
+                    self.skipTest("[SKIP] 메인 팝업 미표시")
+                    return
 
             elif self.platform == "ios":
                 main_popup = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeWindow/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeCollectionView/XCUIElementTypeCell/XCUIElementTypeOther/XCUIElementTypeImage')
@@ -37,12 +38,14 @@ class Tap(unittest.TestCase):
                     close_btn = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeStaticText[`name == "닫기"`]') 
                     close_btn.click()
                 else:
-                    print("메인 팝업 미표기로 PASS")
-                    return 
+                    self.skipTest("[SKIP] 메인 팝업 미표시")
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
                         
             self.driver.implicitly_wait(5)
+
+        except SkipTest:
+            raise
 
         except Exception as e:
             self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
@@ -59,7 +62,7 @@ class Tap(unittest.TestCase):
                 raise Exception("지원하지 않는 플랫폼입니다.")
 
             all_tap.click()
-            sleep(3)
+            sleep(2) # 스크린샷 촬영 시점을 위해 강제 대기
 
             # ▶ 스크린샷 경로 설정 (Reports/{timestamp}/Screenshots/)
             screenshots_dir = os.path.join(appium_device_info.report_dir, "Screenshots")
@@ -86,7 +89,6 @@ class Tap(unittest.TestCase):
             
             home_tap.click()
             self.driver.implicitly_wait(5)
-        # 오류 추가 (확인용)
 
         except Exception as e:
             self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")

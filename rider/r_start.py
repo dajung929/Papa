@@ -29,7 +29,6 @@ class execute(unittest.TestCase):
         if cls.driver is None:
             raise Exception("Appium 드라이버 실행 실패. 테스트를 진행할 수 없습니다.")
         sleep(5)
-                # 📌 driver 저장
         
 
         # 접근 권한 페이지 노출될 경우 (ios의 경우 test case 제외)
@@ -41,13 +40,13 @@ class execute(unittest.TestCase):
                 permission_button.click()
 
             except NoSuchElementException:
-                self.skipTest("[SKIP] 권한 설졍 기 완료로 미표시")
+                self.skipTest("[SKIP] 권한 설정 기 완료로 미표시")
 
         elif self.platform == "ios":
             self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
 
         else:
-                raise Exception(f"[ERROR] 지원하지 않는 플랫폼입니다: {self.platform}")
+            raise Exception(f"[ERROR] 지원하지 않는 플랫폼입니다: {self.platform}")
 
         self.driver.implicitly_wait(5)
 
@@ -67,13 +66,13 @@ class execute(unittest.TestCase):
                 sleep(1)
 
             except NoSuchElementException:
-                self.skipTest("[SKIP] 권한 설졍 기 완료로 미표시")
+                self.skipTest("[SKIP] 권한 설정 기 완료로 미표시")
 
         elif self.platform == "ios":
             self.skipTest("[SKIP] iOS는 권한 팝업 미표시")
             
         else:
-            print("[ERROR] 지원하지 않는 플랫폼입니다.")
+            raise Exception(f"[ERROR] 지원하지 않는 플랫폼입니다: {self.platform}")
 
 
 

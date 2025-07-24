@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from login_info import device_test_data
 import unittest, os, base64
+from unittest import SkipTest
 from time import sleep
 import appium_device_info
 
@@ -139,43 +140,50 @@ class reserve(unittest.TestCase):
             self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
 
 
-        # 차종, 결제수단 선택
+    # 차종, 결제수단 선택
     def test7_carncash_set(self):
         try:
+            # 플랫폼별 locator 정의
             if self.platform == "android":
-                cash = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("캐시 적용")')
-
-                if cash.is_displayed():
-                    self.skipTest("[SKIP] 캐시 설정 상태")
-                    
-                cash.click()
-
-                cash_alway = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='Custom Checkbox')
-                cash_alway.click()
-
-                confirm_btn = self.driver.find_element(AppiumBy.XPATH, value='//android.widget.TextView[@text="적용하기"]')
-                confirm_btn.click()
+                selectors = {
+                    "cash_applied": (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("캐시 적용")'),
+                    "cash_unapplied": (AppiumBy.XPATH, '(//android.widget.TextView[@text="미적용"])[2]'),
+                    "always_cash": (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("항상 캐시 적용")'),
+                    "confirm": (AppiumBy.XPATH, '//android.widget.TextView[@text="적용하기"]')
+                }
 
             elif self.platform == "ios":
-                cash = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, value='캐시 적용')
+                selectors = {
+                    "cash_applied": (AppiumBy.ACCESSIBILITY_ID, '캐시 적용'),
+                    "cash_unapplied": (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`name == "미적용"`][2]'),
+                    "always_cash": (AppiumBy.ACCESSIBILITY_ID, '항상 캐시 적용'),
+                    "confirm": (AppiumBy.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`name == "적용하기"`]')
+                }
 
-                if cash.is_displayed():
-                    self.skipTest("[SKIP] 캐시 설정 상태")
-                
-                cash = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeStaticText[`name == "미적용"`][2]')
-                cash.click()
-
-                cash_alway = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='항상 캐시 적용')
-                cash_alway.click()
-
-                confirm_btn = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeStaticText[`name == "적용하기"`]')
-                confirm_btn.click()
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
+
+            # 캐시 적용 상태 확인
+            cash_element = self.driver.find_element(*selectors["cash_applied"])
+            if cash_element.is_displayed():
+                self.skipTest("[SKIP] 캐시 설정 상태")
+                return
+
+            # 캐시 미적용 상태일 경우 설정 진행
+            self.driver.find_element(*selectors["cash_unapplied"]).click()
+            sleep(1)
+
+            self.driver.find_element(*selectors["always_cash"]).click()
+            sleep(1)
+
+            self.driver.find_element(*selectors["confirm"]).click()
+            sleep(1)
             
+        except SkipTest:
+            raise
+
         except Exception as e:
             self.fail(f"[FAIL] 예상하지 못한 이슈로 인해 종료: {e}")
-
             sleep(3)
 
 
@@ -186,7 +194,7 @@ class reserve(unittest.TestCase):
                 btn = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("예약하기")')
    
             elif self.platform == "ios":
-                date_set = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, value='전체보기')
+                btn = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeStaticText[`name == "예약하기"`]')
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
 
@@ -214,7 +222,7 @@ class reserve(unittest.TestCase):
                 btn = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, value='new UiSelector().text("확인")')
    
             elif self.platform == "ios":
-                date_set = self.driver.find_element(AppiumBy.ACCESSIBILITY_ID, value='전체보기')
+                btn = self.driver.find_element(AppiumBy.IOS_CLASS_CHAIN, value='**/XCUIElementTypeButton[`name == "확인"`]')
             else:
                 raise Exception("지원하지 않는 플랫폼입니다.")
 
