@@ -23,6 +23,7 @@ class execute(unittest.TestCase):
         self.appium_service.start(args=['-p', '4723'])
 
         self.driver = crew_start()
+        # amazonq-ignore-next-line
         sleep(5)
 
 

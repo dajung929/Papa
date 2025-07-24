@@ -21,6 +21,7 @@ class SignIn(unittest.TestCase):
     def setUpClass(cls):
         cls.driver = appium_device_info.driver_instance
         cls.platform = appium_device_info.current_device["platformName"].lower()
+
         if cls.driver is None:
             raise Exception("RiderStart에서 driver가 설정되지 않았습니다.")
 
@@ -103,13 +104,13 @@ class SignIn(unittest.TestCase):
             elif self.platform == "ios":
                 id_field = self.driver.find_element(by=AppiumBy.CLASS_NAME, value="XCUIElementTypeTextField")
                 
-                # 전체 텍스트 선택 → 삭제 → 입력
+                # 필드 선택 → 삭제 → 입력 (ios 에서 입력 시 기존 값이 남아있을 수 있어 방어 추가)
                 id_field.click()
                 current_value = id_field.get_attribute("value")
                 if current_value:
                     # 전체 선택 + 삭제
                     id_field.clear()
-                    # 일부 앱에서는 clear()가 동작 안할 수 있음 → 백스페이스 반복
+                    # 일부 기종에서 clear()가 동작 안할 수 있음 → 백스페이스 반복
                     for _ in range(len(current_value)):
                         id_field.send_keys("\b")
             else:
@@ -137,7 +138,7 @@ class SignIn(unittest.TestCase):
                 raise Exception("지원하지 않는 플랫폼입니다.")
 
             button.click()
-            sleep(3)
+            sleep(3) # 로그인시 ID와 PW 변수 값이 동일함에 따라 강제 대기
 
         except NoSuchElementException:
             self.skipTest("[SKIP] 기 로그인 상태이거나 로그인 버튼 미노출")
