@@ -10,6 +10,7 @@ SLACK_TOKEN = os.getenv("SLACK_TOKEN")
 SLACK_CHANNEL_ID = os.getenv("SLACK_CHANNEL_ID")
 WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL")
 
+#파일과 함께 메시지를 보내는 함수
 def upload_file_v2(file_path, channel_id, message):
     client = WebClient(token=SLACK_TOKEN)
     try:
@@ -22,7 +23,7 @@ def upload_file_v2(file_path, channel_id, message):
     except SlackApiError as e:
         print("[ERROR] 파일 업로드 실패:", e.response['error'])
 
-# 메시지만 보내는 함수 추가
+# 메시지만 보내는 함수
 def send_message(channel_id, message):
     client = WebClient(token=SLACK_TOKEN)
     try:

@@ -48,7 +48,7 @@ def run_test_for_device(device):
     os.makedirs(report_dir, exist_ok=True)
 
     appium_device_info.report_dir = report_dir
-    report_title = f"{device['name']}(OS: {device['platformVersion']})"
+    report_title = f"{device['name']} (OS: {device['platformVersion']})"
 
 
     runner = HTMLTestRunner(
@@ -75,7 +75,6 @@ def run_test_for_device(device):
         print(f"[INFO] Appium 서버 종료 - {safe_device_name}")
 
     # 5. Slack 알림
-
     safe_filename = os.path.basename(f"{file_name}.html")
     report_file = os.path.join(report_dir, safe_filename)
     message = f":white_check_mark: 자동화 테스트 완료 - {safe_device_name}"
@@ -83,7 +82,7 @@ def run_test_for_device(device):
     if os.path.exists(report_file):
         upload_file_v2(desired_path, SLACK_CHANNEL_ID, message)
     else:
-        print(f"[INFO] 리포트 파일이 존재하지 않아 Slack 전송 생략: {report_file}")
+        send_message(SLACK_CHANNEL_ID, ":x: 오류로 인한 파일 생성 불가 - " + device['name'])
 
 
 # ▶ 병렬 실행 시작
